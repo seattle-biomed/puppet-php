@@ -4,12 +4,12 @@
 # See also php::module:ini for optional configuration.
 #
 # Sample Usage :
-#  php::module { [ 'ldap', 'mcrypt', 'xml' ]: }
-#  php::module { 'odbc': ensure => absent }
-#  php::module { 'pecl-apc': }
+#  php::module { [ 'php-ldap', 'php-mcrypt', 'php-xml' ]: }
+#  php::module { 'php-odbc': ensure => absent }
+#  php::module { 'php-pecl-apc': }
 #
 define php::module ( $ensure = installed ) {
-  package { "php-${title}":
+  package { "${title}":
     ensure => $ensure,
   }
 }

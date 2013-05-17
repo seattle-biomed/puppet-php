@@ -96,9 +96,11 @@ define php::ini (
   $session_hash_function      = '0',
   $session_hash_bits_per_character = '5',
   $url_rewriter_tags          = 'a=href,area=href,frame=src,input=src,form=fakeentry'
-) {
+) inherits php::params {
+
   include php::common
-  file { $title:
+
+  file { $title :
     content => template('php/php.ini-el6.erb'),
   }
 }

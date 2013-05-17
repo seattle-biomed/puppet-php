@@ -50,8 +50,14 @@ define php::fpm::conf (
   $php_admin_value = {},
   $php_admin_flag = {},
   $php_directives = [],
-  $error_log = true
+  $error_log = true,
 ) {
+
+  include php::fpm::params
+  $php_fpm_package  = $php::fpm::params::php_fpm_package
+  $php_fpm_service  = $php::fpm::params::php_fpm_service
+  $php_fpm_conf     = $php::fpm::params::php_fpm_conf
+  $php_fpm_pools    = $php::fpm::params::php_fpm_pools
 
   $pool = $title
 
@@ -60,15 +66,15 @@ define php::fpm::conf (
 
   if ( $ensure == 'absent' ) {
 
-    file { "/etc/php-fpm.d/${pool}.conf":
-      notify => Service['php-fpm'],
+    file { "${php_fpm_pools}/${pool}.conf" :
+      notify => Service[$php_fpm_service],
       ensure => absent,
     }
 
   } else {
 
-    file { "/etc/php-fpm.d/${pool}.conf":
-      notify  => Service['php-fpm'],
+    file { "${php_fpm_pools}/${pool}.conf" :
+      notify  => Service[$php_fpm_service],
       content => template('php/fpm/pool.conf.erb'),
       owner   => 'root',
       group   => 'root',

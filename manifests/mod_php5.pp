@@ -7,19 +7,26 @@
 #  php::ini { '/etc/php-httpd.ini': }
 #  class { 'php::mod_php5': inifile => '/etc/php-httpd.ini' }
 #
-class php::mod_php5 ( $inifile = '/etc/php.ini' ) {
-  package { 'php':
+class php::mod_php5 (
+  $php_mod_package  = $php::params::php_mod_package,
+  $inifile          = $php::params::php_ini_file
+) inherits php::params {
+
+  package { $php_mod_package :
     ensure  => installed,
     require => File[$inifile],
     notify  => Service['httpd'],
   }
+
   # Custom httpd conf snippet
   file { '/etc/httpd/conf.d/php.conf':
     content => template('php/httpd/php.conf.erb'),
     require => Package['httpd'],
     notify  => Service['httpd'],
   }
+
   # Notify the httpd service for any php.ini changes too
   File[$inifile] ~> Service['httpd']
+
 }
 
