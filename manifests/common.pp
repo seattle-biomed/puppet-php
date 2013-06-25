@@ -8,9 +8,10 @@ class php::common (
   $php_modules  = []
 ) inherits php::params {
 
-  package { $php_common_pkg : ensure => installed }
-
-  create_resources(php::module,$php_modules)
+  package { 'php-common':
+    name   => $php_common_pkg,
+    ensure => installed,
+  }
 
 }
 

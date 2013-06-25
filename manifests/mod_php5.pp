@@ -9,7 +9,8 @@
 #
 class php::mod_php5 (
   $php_mod_package  = $php::params::php_mod_package,
-  $inifile          = $php::params::php_ini_file
+  $inifile          = $php::params::php_ini_file,
+  $httpd_php_conf   = $php::params::httpd_php_conf
 ) inherits php::params {
 
   package { $php_mod_package :
@@ -19,7 +20,7 @@ class php::mod_php5 (
   }
 
   # Custom httpd conf snippet
-  file { '/etc/httpd/conf.d/php.conf':
+  file { $httpd_php_conf:
     content => template('php/httpd/php.conf.erb'),
     require => Package['httpd'],
     notify  => Service['httpd'],
