@@ -18,8 +18,10 @@ class php::fpm::daemon (
   $php_fpm_conf                 = $php::fpm::params::php_fpm_conf,
   $php_fpm_pools                = $php::fpm::params::php_fpm_pools,
   $php_fpm_reload               = $php::fpm::params::php_fpm_reload,
-  $fpm_pools                    = []
+  $fpm_pools                    = hash([])
 ) inherits php::fpm::params {
+
+  validate_hash($fpm_pools)
 
   # Hack-ish to default to user for group too
   $log_group_final = $log_group ? {
