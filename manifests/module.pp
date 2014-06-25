@@ -8,9 +8,7 @@
 #  php::module { 'php-odbc': ensure => absent }
 #  php::module { 'php-pecl-apc': }
 #
-define php::module ( $ensure = installed ) {
-  package { "${title}":
-    ensure => $ensure,
-  }
+define php::module ( $ensure = 'installed' ) {
+  ensure_packages{ $title: ensure => $ensure }
 }
 
